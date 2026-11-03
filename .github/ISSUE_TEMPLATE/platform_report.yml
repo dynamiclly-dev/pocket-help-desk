@@ -1,0 +1,23 @@
+name: Platform report
+description: Tell us it worked (or didn't) on your hardware
+labels: [platform-report]
+body:
+  - type: input
+    id: machine
+    attributes:
+      label: Make, model and OS version
+      placeholder: "e.g. ThinkPad X1 Carbon Gen 9, Fedora 40"
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options: [Worked end to end, Worked with a workaround, Didn't work]
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Anything surprising, slow, or confusing along the way.

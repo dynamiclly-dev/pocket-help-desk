@@ -1,0 +1,22 @@
+# Pocket Help Desk toolkit - what tools/fetch-tools.ps1 puts in the stick's Tools folder.
+# Data, not code: add or remove a line, re-run the builder.
+#
+# name | folder (under Tools) | source | how | school-safe | what it is
+#   source: a URL, or gh:<owner>/<repo>:<asset regex> = newest GitHub release asset
+#   how:    unzip | file | nupkg (PowerShell module) | 7z (extract an installer with 7-Zip) | 7zfull (7-Zip itself)
+#   school-safe: yes = free for organisations too (OK for school and office IT)
+#
+# --- for Claude (prints text) ---
+7zip           | 7zip                 | gh:ip7z/7zip:^7z\d+-x64\.exe$                               | 7zfull | yes | 7-Zip (7z.exe; 7zFM.exe is its window): open any archive or installer
+sysinternals   | sysinternals         | https://download.sysinternals.com/files/SysinternalsSuite.zip | unzip | yes | Microsoft Sysinternals: autorunsc, sigcheck, handle, du, psinfo, pslist, tcpvcon, accesschk...
+smartmontools  | smartmontools        | gh:smartmontools/smartmontools:\.win32-setup\.exe$          | 7z    | yes | smartctl: is the disk dying?
+bluescreenview | nirsoft               | https://www.nirsoft.net/utils/bluescreenview-x64.zip        | unzip | yes | NirSoft BlueScreenView: why it crashed (/stext for text)
+driverview     | nirsoft               | https://www.nirsoft.net/utils/driverview-x64.zip            | unzip | yes | NirSoft DriverView: every loaded driver, version, date (/stext)
+lastactivity   | nirsoft               | https://www.nirsoft.net/utils/lastactivityview.zip          | unzip | yes | NirSoft LastActivityView: what happened when (installs, crashes, shutdowns)
+wifiinfoview   | nirsoft               | https://www.nirsoft.net/utils/wifiinfoview-x64.zip          | unzip | yes | NirSoft WifiInfoView: nearby networks, signal, channels
+pswindowsupdate| PSWindowsUpdate       | https://www.powershellgallery.com/api/v2/package/PSWindowsUpdate | nupkg | yes | PowerShell module: list, install, hide, uninstall Windows updates
+#
+# --- for you (windows to click) ---
+winutil        | For you\WinUtil       | gh:ChrisTitusTech/winutil:^winutil\.ps1$                    | file  | yes | Chris Titus WinUtil: Windows features on/off, tweaks, repairs, app installs
+rufus          | For you\Rufus         | gh:pbatard/rufus:^rufus-[\d.]+p\.exe$                       | file  | yes | Rufus (portable): make bootable USB sticks
+shutup10       | For you\ShutUp10      | https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe     | file  | yes | O&O ShutUp10++: privacy and telemetry settings

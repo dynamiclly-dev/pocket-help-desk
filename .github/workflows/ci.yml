@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  lint:
+    # Hardware tests (real sticks, real yanks) are run by hand; CI checks what can be checked without a stick.
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck
+        run: |
+          shellcheck -S warning build-stick.sh stick/start-linux.sh "stick/Start (Mac).command" stick/system/*.sh tests/*.sh
+      - name: Python test compiles
+        run: python3 -m py_compile tests/login-lock-test.py
+      - name: Shell scripts use LF line endings
+        run: |
+          bad=$(grep -l $'\r' build-stick.sh stick/start-linux.sh "stick/Start (Mac).command" stick/system/*.sh tests/*.sh tests/*.py || true)
+          if [ -n "$bad" ]; then echo "CRLF found in: $bad"; exit 1; fi
+      - name: versions.txt is well formed
+        run: |
+          v=$(tr -d '\r' < versions.txt)
+          echo "$v" | grep -Eq '^CLAUDE_VERSION=[0-9]+\.[0-9]+\.[0-9]+$'
+          echo "$v" | grep -Eq '^CODEX_TAG=rust-v[0-9]+\.[0-9]+\.[0-9]+$'
+          echo "$v" | grep -Eq '^AGE_TAG=v[0-9]+\.[0-9]+\.[0-9]+$'

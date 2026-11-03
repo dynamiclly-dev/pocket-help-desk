@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: The guide
+    url: https://pockethelpdesk.com/guide/
+    about: Setup, everyday use, no internet, lost stick.
+  - name: Report a security problem privately
+    url: https://github.com/dynamiclly-dev/pocket-help-desk/security/advisories/new
+    about: Please don't open a public issue for security problems.

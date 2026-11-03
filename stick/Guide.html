@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pocket Help Desk guide: set up and use</title>
+<meta name="description" content="How to set up, sign in to and use the Pocket Help Desk: Claude Code on a USB stick for repairing laptops.">
+<meta name="theme-color" content="#e8692e">
+<link rel="canonical" href="https://pockethelpdesk.com/guide/">
+<meta property="og:title" content="Pocket Help Desk guide: set up and use">
+<meta property="og:description" content="How to set up, sign in to and use the Pocket Help Desk: Claude Code on a USB stick for repairing laptops.">
+<meta property="og:url" content="https://pockethelpdesk.com/guide/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pocket Help Desk">
+<meta property="og:image" content="https://pockethelpdesk.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pockethelpdesk.com/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ff8a4c'/%3E%3Cstop offset='1' stop-color='%23e0532a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Crect x='4.5' y='12.5' width='7' height='7' rx='1.2' fill='%23fff' opacity='.75'/%3E%3Crect x='10.5' y='9.5' width='17' height='13' rx='3.2' fill='%23fff'/%3E%3Cpath d='M14.6 13.4l2.6 2.6-2.6 2.6' fill='none' stroke='%23e8692e' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M19.4 18.6h4' stroke='%23e8692e' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E">
+<script>
+// One page, two places: the website (/guide/), and Guide.html on the stick itself (opened as a file).
+if (location.protocol === 'file:') document.documentElement.classList.add('stick');
+else {
+  // Web only: nicer fonts as an enhancement. The stick works offline with system fonts.
+  const l = document.createElement('link'); l.rel = 'stylesheet';
+  l.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap';
+  document.head.appendChild(l);
+}
+</script>
+<style>
+:root{
+  --bg:#f7f7f5; --bg2:#efefec; --panel:#ffffff; --panel2:#f3f3f0; --line:#e3e3de; --line2:#d6d6d0;
+  --text:#14161c; --muted:#5a6070; --dim:#6b7080;
+  --acc:#e8692e; --acc2:#ff9a5a; --acc-soft:#fdeee5; --acc-ink:#b8481a;
+  --teal:#1f9e8f; --teal-soft:#e0f4f1; --btn1:#c4511f; --btn2:#a8421a;
+  --code:#efefeb; --shadow:0 1px 2px rgba(20,22,28,.05),0 8px 24px -10px rgba(20,22,28,.12);
+  --r:16px;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0c0e13; --bg2:#11141a; --panel:#151821; --panel2:#1b1f29; --line:#252a35; --line2:#323846;
+  --text:#eceef3; --muted:#a3aab8; --dim:#727a8a;
+  --acc:#ff8a4c; --acc2:#ffb27a; --acc-soft:#2a1810; --acc-ink:#ffa774;
+  --teal:#4fd1c5; --teal-soft:#0f2522; --btn1:#ffa066; --btn2:#ff8a4c;
+  --code:#1d212b; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -10px rgba(0,0,0,.5);
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+a.lnk{color:var(--acc-ink);font-weight:600}
+code{white-space:nowrap;font-family:var(--mono);font-size:.86em;background:var(--code);padding:2px 6px;border-radius:6px}
+kbd{font-family:var(--mono);font-size:.84em;background:var(--panel);border:1px solid var(--line2);box-shadow:0 1px 0 var(--line2);border-radius:6px;padding:1px 7px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* One page, two places: hide what doesn't apply here. */
+html.stick .on-web{display:none!important}
+html:not(.stick) .on-stick{display:none!important}
+
+/* top bar, same as the homepage */
+.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);box-shadow:0 1px 0 var(--line)}
+.nav .in{display:flex;align-items:center;gap:16px;height:64px;padding:0 28px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:800;font-size:17.5px;letter-spacing:-.02em;white-space:nowrap}
+.brand svg{width:32px;height:32px;flex:none;filter:drop-shadow(0 4px 10px rgba(232,105,46,.35))}
+.brand small{font-weight:600;font-size:13px;color:var(--muted);padding:3px 9px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);letter-spacing:0}
+.nav .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:10px 16px;border-radius:11px;font:600 15px/1 var(--sans);text-decoration:none;border:1px solid transparent;white-space:nowrap;transition:transform .15s,box-shadow .2s,border-color .2s}
+.btn svg.i{width:18px;height:18px}
+.btn.primary{background:linear-gradient(180deg,var(--btn1),var(--btn2));color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 24px -10px rgba(232,105,46,.75)}
+@media (prefers-color-scheme:dark){.btn.primary{color:#1b0d05}}
+.btn.primary:hover{transform:translateY(-1px)}
+.btn.ghost{background:var(--panel);border-color:var(--line2)}
+.btn.ghost:hover{border-color:var(--dim)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:264px minmax(0,1fr);gap:0}
+aside{position:sticky;top:64px;height:calc(100vh - 64px);overflow:auto;padding:28px 18px 28px 24px}
+aside .lbl{font:700 11.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:0 10px 10px}
+aside nav a{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--muted);font-size:14.5px;font-weight:500;padding:7px 10px;border-radius:9px;transition:background .15s,color .15s}
+aside nav a svg.i{width:17px;height:17px;color:var(--dim)}
+aside nav a:hover{background:var(--panel2);color:var(--text)}
+aside nav a.on{background:var(--acc-soft);color:var(--acc-ink)}
+aside nav a.on svg.i{color:var(--acc-ink)}
+aside nav .sub{padding-left:37px;font-size:13.5px}
+.back{display:flex;align-items:center;gap:8px;margin-top:22px;padding:10px;font-size:14px;color:var(--muted);text-decoration:none;border-radius:9px;border:1px solid var(--line)}
+.back:hover{color:var(--text);border-color:var(--line2)}
+.back svg.i{width:16px;height:16px}
+
+main{padding:44px 56px 96px 32px;min-width:0}
+.sec{margin-bottom:76px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:700 12.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--acc-ink)}
+.eyebrow::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--acc)}
+h1{font-size:clamp(34px,4.4vw,54px);line-height:1.05;letter-spacing:-.04em;font-weight:800;margin:14px 0 16px}
+.grad{background:linear-gradient(100deg,var(--acc) 0%,#f59a3e 60%,var(--acc) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:clamp(26px,2.6vw,34px);letter-spacing:-.03em;font-weight:800;margin:0;line-height:1.15}
+h1,h2{text-wrap:balance}
+h3{font-size:20px;font-weight:700;margin:40px 0 12px;letter-spacing:-.015em}
+p{margin:0 0 12px}
+.lead{font-size:19px;color:var(--muted);line-height:1.55}
+.lead b{color:var(--text)}
+.muted{color:var(--muted)}
+ul.plain{margin:4px 0 12px 22px}
+ul.plain li{margin:6px 0}
+
+/* intro */
+.hero{position:relative;padding:8px 0 4px}
+.intro{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:26px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;box-shadow:var(--shadow)}
+.box .bh{display:flex;align-items:center;gap:8px;font:700 12.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+.box .bh svg.i{width:17px;height:17px}
+.box ol{margin-left:20px}
+.box li{margin:8px 0}
+html.stick .intro{grid-template-columns:1fr}
+.hero>.start{margin:6px 0 26px}
+.start{background:linear-gradient(180deg,var(--acc-soft),var(--panel) 80%);border-color:color-mix(in srgb,var(--acc) 40%,var(--line))}
+.start .bh{color:var(--acc-ink)}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.facts span{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:500;padding:6px 12px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--muted)}
+.facts svg.i{width:16px;height:16px;color:var(--teal);stroke-width:2.4}
+
+/* section headers */
+.hd{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.hd .ic{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;flex:none;background:var(--acc-soft);color:var(--acc-ink);border:1px solid color-mix(in srgb,var(--acc) 30%,var(--line))}
+.hd .ic svg.i{width:25px;height:25px}
+.hd.neu .ic{background:var(--panel2);color:var(--text);border-color:var(--line)}
+.hd .eyebrow{margin-bottom:4px}
+
+/* download */
+.dl{display:inline-flex;align-items:center;gap:12px;margin:16px 0 6px;padding:15px 24px;border-radius:12px;background:linear-gradient(180deg,var(--btn1),var(--btn2));color:#fff;text-decoration:none;font-weight:700;font-size:16.5px;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 12px 26px -12px rgba(232,105,46,.8);transition:transform .15s}
+@media (prefers-color-scheme:dark){.dl{color:#1b0d05}}
+.dl:hover{transform:translateY(-1px)}
+.dl svg.i{width:19px;height:19px}
+.dl small{font-weight:500;opacity:.85}
+
+/* steps */
+.steps{counter-reset:s;display:grid;gap:10px;margin:12px 0}
+.st{display:grid;grid-template-columns:36px minmax(0,1fr);gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);transition:border-color .2s}
+.st:hover{border-color:color-mix(in srgb,var(--acc) 35%,var(--line))}
+.st::before{counter-increment:s;content:counter(s);width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font:700 15px var(--mono);background:var(--acc-soft);color:var(--acc-ink)}
+.st>div>b{display:block;font-weight:600;margin-bottom:2px}
+.st span{color:var(--muted);font-size:15.5px}
+
+/* tool cards */
+.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px}
+.tool{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.tool h4{font-size:16.5px;margin-bottom:4px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.tool h4 small{font:500 12.5px var(--mono);color:var(--dim)}
+.tool p{color:var(--muted);font-size:15px;margin:0}
+.tool .use{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2);font-size:14px;color:var(--text)}
+.tool .use b{color:var(--dim);font-weight:700;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+
+/* rules + notes */
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:12px}
+.rule{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;font-size:15px;box-shadow:var(--shadow)}
+.rule .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--acc-soft);color:var(--acc-ink);margin-bottom:12px}
+.rule:nth-child(2) .ic{background:var(--teal-soft);color:var(--teal)}
+.rule .ic svg.i{width:20px;height:20px}
+.rule b{display:block;margin-bottom:4px;font-size:16px}
+.rule span{color:var(--muted)}
+.note{border-radius:14px;padding:18px 20px;margin:16px 0;font-size:15.5px;background:var(--panel2);border:1px solid var(--line)}
+.note b.t{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.note b.t svg.i{width:18px;height:18px;color:var(--acc-ink)}
+
+/* Good to know */
+.more{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;list-style:none}
+.more li{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;font-size:15.5px;color:var(--muted);box-shadow:var(--shadow)}
+.more li b{display:block;color:var(--text);margin-bottom:4px;font-size:16px}
+.more li.wide{grid-column:1/-1}
+
+footer{padding:28px 0 0;margin-top:20px;border-top:1px solid var(--line);font-size:13.5px;color:var(--dim)}
+
+@media (max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  aside{position:static;height:auto;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+  aside .lbl{display:none}
+  aside nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  aside nav::-webkit-scrollbar{display:none}
+  aside nav a,aside nav .sub{flex:none;padding:7px 12px;background:var(--panel2);font-size:13.5px;white-space:nowrap}
+  aside nav .sub{display:none!important}
+  .back{display:none}
+  main{padding:30px 22px 64px}
+  .intro,.tools,.rules,.more{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .nav .in{padding:0 16px;height:58px}
+  .brand{font-size:16px}.brand svg{width:28px;height:28px}
+  .brand small{display:none}
+  .nav .btn{padding:9px 12px;font-size:14px}
+  .nav .btn .long{display:none}
+  html{scroll-padding-top:70px}
+  main{padding:24px 16px 56px}
+  .st{grid-template-columns:30px minmax(0,1fr);gap:12px;padding:14px}
+  .st::before{width:30px;height:30px;font-size:13.5px;border-radius:9px}
+  .dl{width:100%;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9a5a"/><stop offset="1" stop-color="#e0532a"/></linearGradient></defs>
+  <symbol id="logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="url(#lg)"/><rect x="4.5" y="12.5" width="7" height="7" rx="1.2" fill="#fff" opacity=".75"/><rect x="10.5" y="9.5" width="17" height="13" rx="3.2" fill="#fff"/><path d="M14.6 13.4l2.6 2.6-2.6 2.6" fill="none" stroke="#e8692e" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.4 18.6h4" stroke="#e8692e" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M10 8.5l5 3.5-5 3.5z"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4.5"/><path d="M11.2 11.8L20 3M16.5 6.5l2.5 2.5M14.5 8.5l2 2"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3l7.5-7.5"/><path d="M14.5 6.5L17.5 3.5a4 4 0 0 1 3 3l-3 3"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.6 16a5 5 0 0 1 6.8 0"/><circle cx="12" cy="19.2" r=".9"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M3.5 9h17v10a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19z"/><path d="M8.5 9V6.5A1.5 1.5 0 0 1 10 5h4a1.5 1.5 0 0 1 1.5 1.5V9M3.5 13.5h17M10.5 13.5v2h3v-2"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3M12 14.5v2.5"/></symbol>
+  <symbol id="i-broom" viewBox="0 0 24 24"><path d="M4 20l7-7M10 9.5l4.5 4.5M14.5 14L19 20H8.5L10 9.5z"/><path d="M13 4.5l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M12 21a7 7 0 0 1-7-7V9.5a1.5 1.5 0 0 1 3 0V12"/><path d="M8 11V5.5a1.5 1.5 0 0 1 3 0V11M11 10.5V4a1.5 1.5 0 0 1 3 0v6.5M14 10.5V5.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-5 7"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="4.5" y="5" width="15" height="10.5" rx="1.5"/><path d="M2.5 19h19"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+</svg>
+
+<header class="nav">
+  <div class="in">
+    <a class="brand on-web" href="/"><svg><use href="#logo"/></svg>Pocket Help Desk<small>Guide</small></a>
+    <a class="brand on-stick" href="https://pockethelpdesk.com/"><svg><use href="#logo"/></svg>Pocket Help Desk<small>Guide</small></a>
+    <div class="right">
+      <a class="btn primary on-web" href="/pocket-help-desk-setup.zip" download><svg class="i"><use href="#i-dl"/></svg><span>Download<span class="long"> the setup</span></span></a>
+      <a class="btn ghost on-stick" href="https://pockethelpdesk.com/guide/">This guide online<svg class="i"><use href="#i-ext"/></svg></a>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+<aside>
+  <div class="lbl">In this guide</div>
+  <nav id="toc">
+    <a href="#about"><svg class="i"><use href="#i-info"/></svg>What it is</a>
+    <a class="on-web" href="#setup"><svg class="i"><use href="#i-dl"/></svg>Set it up</a>
+    <a class="sub on-web" href="#first">First start</a>
+    <a class="on-stick" href="#setup"><svg class="i"><use href="#i-key"/></svg>First start</a>
+    <a href="#use"><svg class="i"><use href="#i-wrench"/></svg>Every day</a>
+    <a href="#offline"><svg class="i"><use href="#i-wifi"/></svg>No internet?</a>
+    <a href="#tools"><svg class="i"><use href="#i-box"/></svg>The toolkit</a>
+    <a class="sub" href="#tools-claude">Claude's tools</a>
+    <a class="sub" href="#tools-you">Your tools</a>
+    <a href="#safe"><svg class="i"><use href="#i-lock"/></svg>Keeping it safe</a>
+    <a href="#more"><svg class="i"><use href="#i-bulb"/></svg>Good to know</a>
+  </nav>
+  <a class="back on-web" href="/"><svg class="i"><use href="#i-back"/></svg>Pocket Help Desk home</a>
+  <a class="back on-stick" href="https://pockethelpdesk.com/guide/">This guide online<svg class="i"><use href="#i-ext"/></svg></a>
+</aside>
+<main>
+
+<section class="sec hero" id="about">
+  <div class="eyebrow">The guide</div>
+  <h1>Set up and use your <span class="grad">Pocket Help Desk</span></h1>
+  <div class="box start on-stick">
+    <h2 class="bh"><svg class="i"><use href="#i-play"/></svg>Start here</h2>
+    <ol>
+      <li><b>Windows:</b> double-click <code>Start (Windows).cmd</code> on this stick and click <b>Yes</b> when Windows asks to "allow changes".</li>
+      <li><b>Mac:</b> double-click <code>Start (Mac).command</code>. The first time: right-click it, choose Open, then Open.</li>
+      <li><b>Linux:</b> in a terminal, run <code>bash start-linux.sh</code> from this stick.</li>
+    </ol>
+    <p style="margin:10px 0 0">Never signed in on this stick? Read <a class="lnk" href="#setup">First start</a>. No internet on the laptop? Read <a class="lnk" href="#offline">No internet?</a></p>
+  </div>
+  <p class="lead">Claude Code on a USB stick. Plug it into a laptop, tell Claude what's wrong in plain words, and it checks the laptop, explains what it found, and <b>fixes it once you say yes.</b> Claude itself is never installed on the laptop, a fix like a new driver happens only after your yes, and it checks for leftovers when you quit.</p>
+  <div class="intro">
+    <div>
+      <p>It works on Windows laptops (and on Macs and Linux too, if you choose that during setup). Claude runs straight from the stick with its own settings, its own notes and a toolkit of repair tools it knows how to use.</p>
+      <p>Your Claude login is kept on the stick <b>locked with a passphrase</b> that only you know. Without it, the stick is useless to anyone else.</p>
+      <div class="facts">
+        <span><svg class="i"><use href="#i-check"/></svg>Claude never installed</span>
+        <span><svg class="i"><use href="#i-check"/></svg>Asks before every change</span>
+        <span><svg class="i"><use href="#i-check"/></svg>Windows, Mac, Linux</span>
+      </div>
+    </div>
+
+    <div class="box on-web">
+      <h2 class="bh"><svg class="i"><use href="#i-laptop"/></svg>What you need</h2>
+      <ul class="plain">
+        <li>A USB stick, 32 GB or more</li>
+        <li>A Windows computer to set it up on, with internet</li>
+        <li>Your Claude account (Pro or Max)</li>
+        <li>About 30 minutes, once</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="setup">
+  <div class="on-stick"><div class="hd"><div class="ic"><svg class="i"><use href="#i-key"/></svg></div><div><div class="eyebrow">Once</div><h2>Sign in</h2></div></div></div>
+  <div class="on-web">
+  <div class="hd"><div class="ic"><svg class="i"><use href="#i-dl"/></svg></div><div><div class="eyebrow">Once</div><h2>Set it up</h2></div></div>
+  <p>The download is tiny: just the setup. It then fetches Claude and every tool straight from their official websites onto your stick, so everything is the genuine, current version.</p>
+  <a class="dl" href="/pocket-help-desk-setup.zip" download><svg class="i"><use href="#i-dl"/></svg>Download the setup <small>(zip, under 50 KB)</small></a>
+  <div class="steps" style="margin-top:16px">
+    <div class="st"><div><b>Plug in your USB stick</b><span>Anything on it may be erased in step 4, so use an empty one or copy your files off first.</span></div></div>
+    <div class="st"><div><b>Unzip the download</b><span>Right-click <code>pocket-help-desk-setup.zip</code> → Extract All. You get a folder called <code>Pocket Help Desk setup</code>.</span></div></div>
+    <div class="st"><div><b>Double-click <code>Set up my stick.cmd</code></b><span>If Windows says it protected your PC, click "More info", then "Run anyway". The setup lists the USB sticks it can see; type the letter of yours.</span></div></div>
+    <div class="st"><div><b>Let it format the stick if it asks</b><span>The stick needs a format called exFAT, the one Windows, Mac and Linux all understand. If yours isn't, setup tells you and asks you to type <kbd>ERASE</kbd> to format it.</span></div></div>
+    <div class="st"><div><b>Answer one question: Mac or Linux too?</b><span>Say no unless you'll use the stick on a Mac or Linux computer. Windows-only is smaller and faster.</span></div></div>
+    <div class="st"><div><b>Wait 10 to 30 minutes</b><span>It downloads about 1.3 GB and checks every file is genuine. When it says <b>ALL DONE</b>, your stick is ready.</span></div></div>
+  </div>
+  </div>
+
+  <h3 id="first" class="on-web">First start: sign in and choose your passphrase</h3>
+  <p>Do this once, <b>at home on your own computer</b>.</p>
+  <div class="steps">
+    <div class="st"><div><b>Open the stick and double-click <code>Start (Windows).cmd</code></b><span>Click <b>Yes</b> when Windows asks to "allow changes". A menu appears.</span></div></div>
+    <div class="st"><div><b>Press <kbd>1</kbd> (Claude)</b><span>A private browser window opens. Sign in to your Claude account and click Authorize, then close that window.</span></div></div>
+    <div class="st"><div><b>Choose a passphrase</b><span>Four or more random words, like <code>maple tunnel orbit seven</code>. You type it twice. Nothing appears on screen while you type; that's normal. Write it down somewhere safe.</span></div></div>
+    <div class="st"><div><b>Claude opens</b><span>You're done. The login lasts a year; after that, the stick walks you through signing in again.</span></div></div>
+  </div>
+</section>
+
+<section class="sec" id="use">
+  <div class="hd"><div class="ic"><svg class="i"><use href="#i-wrench"/></svg></div><div><div class="eyebrow">On a laptop</div><h2>Every day</h2></div></div>
+  <div class="steps">
+    <div class="st"><div><b>Plug in and double-click <code>Start (Windows).cmd</code></b><span>Click <b>Yes</b> to "allow changes" (on a school laptop that may need the admin login). Saying No still works, but then Claude can only look, not fix.</span></div></div>
+    <div class="st"><div><b>Make sure the laptop is online</b><span>Claude needs internet. If the Wi-Fi is the problem, connect through your phone: see <a class="lnk" href="#offline">No internet?</a></span></div></div>
+    <div class="st"><div><b>Press <kbd>1</kbd> and type your passphrase</b><span>Claude checks your login for a couple of seconds, then opens.</span></div></div>
+    <div class="st"><div><b>Tell it what's wrong, in plain words</b><span>"Her speakers stopped working after she used the projector." Claude investigates and explains what it found.</span></div></div>
+    <div class="st"><div><b>Say yes or no to each fix</b><span>Claude asks before changing anything. Ask for a report and it saves one to the stick's <code>Reports</code> folder.</span></div></div>
+    <div class="st"><div><b>Type <kbd>/exit</kbd>, press <kbd>Q</kbd>, then unplug</b><span>Q tidies up and checks nothing was left on the laptop. Pulling the stick out in a hurry also closes everything within a few seconds.</span></div></div>
+  </div>
+  <div class="note"><b class="t"><svg class="i"><use href="#i-laptop"/></svg>On a Mac or Linux computer</b>Mac: double-click <code>Start (Mac).command</code> (the first time: right-click it, choose Open, then Open). Linux: run <code>bash start-linux.sh</code> from the stick in a terminal. The rest is the same.</div>
+</section>
+
+<section class="sec" id="offline">
+  <div class="hd"><div class="ic"><svg class="i"><use href="#i-wifi"/></svg></div><div><div class="eyebrow">When the laptop can't get online</div><h2>No internet?</h2></div></div>
+  <p>Claude needs internet, but the laptop's own Wi-Fi may be the thing that's broken. Lend it your phone's internet over a USB cable. A phone hotspot over Wi-Fi won't help here, because that still goes through the laptop's Wi-Fi.</p>
+  <div class="steps">
+    <div class="st"><div><b>Plug your phone into the laptop with its USB cable</b><span>Use the cable that came with the phone. Some cheap cables only charge, and those won't work.</span></div></div>
+    <div class="st"><div><b>Turn on USB tethering on the phone</b><span>On a Samsung: <b>Settings → Connections → Mobile Hotspot and Tethering → USB tethering</b>. Windows connects by itself after a few seconds; there is nothing to install.</span></div></div>
+    <div class="st"><div><b>Start the stick as usual and tell Claude the Wi-Fi is broken</b><span>"The Wi-Fi doesn't work. I'm online through my phone." Claude finds the cause. Often it's a switched-off adapter or a broken setting; if it needs a driver, Claude downloads it over your phone and installs it after you say yes.</span></div></div>
+    <div class="st"><div><b>Once the Wi-Fi works, turn tethering off</b><span>Carry on over the laptop's own Wi-Fi. That saves your phone's data and proves the fix really worked.</span></div></div>
+  </div>
+  <div class="note"><b class="t"><svg class="i"><use href="#i-search"/></svg>If that doesn't work</b>
+    <ul class="plain" style="margin-bottom:0">
+      <li><b>The USB tethering switch stays grey:</b> try another cable or another USB port on the laptop.</li>
+      <li><b>Your phone plan blocks tethering:</b> plug the laptop into a network socket with a cable. Laptops without a network socket need a USB network adapter (any with the Realtek RTL8153 chip works without installing anything, about $15).</li>
+      <li><b>Claude says the Wi-Fi card isn't there at all:</b> the card itself has probably failed and no driver will fix it. A USB Wi-Fi stick or a replacement card will; stay on your phone until then.</li>
+      <li><b>On a Mac:</b> Android tethering may not work. Use the cable and adapter instead.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="tools">
+  <div class="hd neu"><div class="ic"><svg class="i"><use href="#i-box"/></svg></div><div><div class="eyebrow">Windows</div><h2>The toolkit</h2></div></div>
+  <p>The stick carries free repair tools from Microsoft and other trusted makers. You don't need to learn them: Claude knows each one and picks the right tool for the problem. They're listed here so you know what it's using.</p>
+
+  <h3 id="tools-claude">Claude's tools</h3>
+  <div class="tools">
+    <div class="tool"><h4>Sysinternals <small>by Microsoft</small></h4><p>Microsoft's own troubleshooting kit: what starts with Windows, what's running, what's using the network, what's locking a file, what's eating disk space.</p><div class="use"><b>Helps with</b>slow laptops, pop-ups at startup, "file is in use", a full disk, anything suspicious</div></div>
+    <div class="tool"><h4>smartctl <small>smartmontools</small></h4><p>Reads the disk's own health report.</p><div class="use"><b>Helps with</b>a slow, freezing or clicking laptop: is the disk dying?</div></div>
+    <div class="tool"><h4>BlueScreenView <small>NirSoft</small></h4><p>Reads the crash records Windows saves after a blue screen and names the driver behind it.</p><div class="use"><b>Helps with</b>laptops that crash or restart by themselves</div></div>
+    <div class="tool"><h4>DriverView <small>NirSoft</small></h4><p>Lists every driver with its version and date.</p><div class="use"><b>Helps with</b>printer, sound, Wi-Fi or screen trouble after an update</div></div>
+    <div class="tool"><h4>LastActivityView <small>NirSoft</small></h4><p>A timeline of installs, crashes, shutdowns and sign-ins.</p><div class="use"><b>Helps with</b>"it worked until yesterday"</div></div>
+    <div class="tool"><h4>WifiInfoView <small>NirSoft</small></h4><p>Nearby Wi-Fi networks, signal strength and channels.</p><div class="use"><b>Helps with</b>slow or dropping Wi-Fi</div></div>
+    <div class="tool"><h4>PSWindowsUpdate</h4><p>Lists, installs, hides and removes Windows updates, with clear error messages.</p><div class="use"><b>Helps with</b>stuck or failing updates, rolling back a bad update</div></div>
+    <div class="tool"><h4>7-Zip</h4><p>Opens any archive, and unpacks installers without running them.</p><div class="use"><b>Helps with</b>getting at a driver inside a download</div></div>
+  </div>
+  <p class="muted" style="margin-top:14px">When a job needs something more, Claude fetches the current version from the official site, after asking you: the laptop maker's driver tool (HP, Lenovo, Dell), Snappy Driver Installer for laptops with no internet, Microsoft Safety Scanner for a second-opinion virus check, and Display Driver Uninstaller for a clean graphics-driver reinstall.</p>
+
+  <h3 id="tools-you">Your tools</h3>
+  <p>A few tools with windows to click, in the stick's <code>Tools\For you</code> folder:</p>
+  <div class="tools">
+    <div class="tool"><h4>WinUtil <small>Chris Titus</small></h4><p>One window for turning Windows features on or off, tweaks, common repairs (like resetting Windows Update) and installing apps.</p><div class="use"><b>Open it</b>ask Claude to start WinUtil for you (it needs admin)</div></div>
+    <div class="tool"><h4>Rufus</h4><p>Makes a bootable USB stick, such as a Windows installer.</p><div class="use"><b>Helps with</b>reinstalling or repairing Windows</div></div>
+    <div class="tool"><h4>O&amp;O ShutUp10++</h4><p>Windows' privacy and telemetry settings, all in one window.</p><div class="use"><b>Helps with</b>tidying up a new laptop's settings</div></div>
+    <div class="tool"><h4>Process Explorer, Autoruns, TCPView</h4><p>The point-and-click versions of the Sysinternals tools, in <code>Tools\sysinternals</code>.</p><div class="use"><b>Helps with</b>looking for yourself</div></div>
+  </div>
+  <p class="muted" style="margin-top:14px">Every tool is free for schools and organisations. Where each one comes from is listed on the stick in <code>Tools\Where these came from.txt</code>.</p>
+</section>
+
+<section class="sec" id="safe">
+  <div class="hd neu"><div class="ic"><svg class="i"><use href="#i-lock"/></svg></div><div><div class="eyebrow">Security</div><h2>Keeping it safe</h2></div></div>
+  <div class="rules">
+    <div class="rule"><div class="ic"><svg class="i"><use href="#i-lock"/></svg></div><b>Your login is locked</b><span>Claude's login sits on the stick locked with your passphrase. It's unlocked only into the computer's memory while you work, never saved on the laptop.</span></div>
+    <div class="rule"><div class="ic"><svg class="i"><use href="#i-broom"/></svg></div><b>Nothing left behind</b><span>Claude's settings, notes and files stay on the stick. When you quit, it checks the laptop and tells you it's clean.</span></div>
+    <div class="rule"><div class="ic"><svg class="i"><use href="#i-hand"/></svg></div><b>Asks before every change</b><span>Claude explains each fix and waits for your yes. It never touches the teacher's own files unless you ask.</span></div>
+  </div>
+  <div class="note"><b class="t"><svg class="i"><use href="#i-key"/></svg>If the stick goes missing</b>Without your passphrase nobody can use your Claude login. To be completely sure, sign in at claude.ai, go to <b>Settings → Claude Code</b> and remove the stick's token with the trash icon. It takes a minute. If you had set Codex to stay signed in, also use "Log out of all devices" in ChatGPT's security settings.<br>If the stick turns up again, run <code>Set up my stick.cmd</code> on it before using it, so every program on it is fresh.</div>
+</section>
+
+<section class="sec" id="more">
+  <div class="hd neu"><div class="ic"><svg class="i"><use href="#i-bulb"/></svg></div><div><div class="eyebrow">Extras</div><h2>Good to know</h2></div></div>
+  <ul class="more">
+    <li><b>Updating the stick</b>Run <code>Set up my stick.cmd</code> again and pick the same stick. It refreshes everything and keeps your login and notes.</li>
+    <li><b>Forgot your passphrase?</b>On the menu press <kbd>3</kbd> (Logins), then sign in to Claude again and choose a new one.</li>
+    <li class="wide"><b>Folders on the stick</b><code>Files</code> keeps anything Claude saves for you, <code>Reports</code> keeps one report per laptop, and <code>tmp</code> is scratch space that's wiped every time. <code>home</code> holds Claude's settings and chat history, and <code>secrets</code> holds your locked login. Leave <code>system</code> alone.</li>
+    <li class="wide"><b>Codex (optional)</b>Menu item 2 is ChatGPT's coding assistant, for anyone with a ChatGPT plan. By default it signs in fresh each time with a code on your phone and saves nothing. On a stick that never leaves you, it can stay signed in instead (Logins, menu <kbd>3</kbd>), but its login then sits unlocked on the stick, because Codex can't use your passphrase. To sign in, pick "Sign in with Device Code" and type the code on your phone (switch on device codes in ChatGPT's security settings first), and only ever type a code this screen just showed you. You don't need Codex at all.</li>
+  </ul>
+  <footer>Pocket Help Desk is an independent project, not affiliated with Anthropic. Claude is a trademark of Anthropic.</footer>
+</section>
+
+</main>
+</div>
+
+<script>
+// Highlight the section you're reading in the side menu.
+(() => {
+  const links = [...document.querySelectorAll('#toc a')].filter(a => a.offsetParent !== null || getComputedStyle(a).display !== 'none');
+  const map = new Map();
+  links.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if (s && !a.classList.contains('sub')) map.set(s, a); });
+  if (!('IntersectionObserver' in window) || !map.size) return;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { links.forEach(l => l.classList.remove('on')); const a = map.get(e.target); if (a) a.classList.add('on'); }
+  }), {rootMargin: '-30% 0px -60% 0px'});
+  map.forEach((_, s) => io.observe(s));
+})();
+</script>
+</body>
+</html>

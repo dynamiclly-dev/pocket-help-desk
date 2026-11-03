@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pocket Help Desk - your whole IT team, in your pocket</title>
+<meta name="description" content="A USB stick that runs Claude Code on any Windows, Mac or Linux computer. Plug it in, say what's wrong, and it fixes things only once you say yes. Claude itself is never installed.">
+<meta name="theme-color" content="#e8692e">
+<meta property="og:title" content="Pocket Help Desk - your whole IT team, in your pocket">
+<meta property="og:description" content="Claude Code on a USB stick. Plug it into a broken computer, say what's wrong, and it finds the problem and fixes it once you say yes.">
+<meta property="og:url" content="https://pockethelpdesk.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pocket Help Desk">
+<meta property="og:image" content="https://pockethelpdesk.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pocket Help Desk: your whole IT team, in your pocket.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pockethelpdesk.com/og.png">
+<link rel="canonical" href="https://pockethelpdesk.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ff8a4c'/%3E%3Cstop offset='1' stop-color='%23e0532a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Crect x='4.5' y='12.5' width='7' height='7' rx='1.2' fill='%23fff' opacity='.75'/%3E%3Crect x='10.5' y='9.5' width='17' height='13' rx='3.2' fill='%23fff'/%3E%3Cpath d='M14.6 13.4l2.6 2.6-2.6 2.6' fill='none' stroke='%23e8692e' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M19.4 18.6h4' stroke='%23e8692e' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f7f5; --bg2:#efefec; --panel:#ffffff; --panel2:#f3f3f0; --line:#e3e3de; --line2:#d6d6d0;
+  --text:#14161c; --muted:#5a6070; --dim:#6b7080;
+  --acc:#e8692e; --acc2:#ff9a5a; --acc-soft:#fdeee5; --acc-ink:#b8481a;
+  --teal:#1f9e8f; --teal-soft:#e0f4f1; --btn1:#c4511f; --btn2:#a8421a;
+  --code:#efefeb; --shadow:0 1px 2px rgba(20,22,28,.05),0 8px 24px -10px rgba(20,22,28,.12);
+  --shadow-lg:0 30px 80px -30px rgba(20,22,28,.35),0 8px 24px -12px rgba(20,22,28,.18);
+  --r:16px; --wrap:1200px;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0c0e13; --bg2:#11141a; --panel:#151821; --panel2:#1b1f29; --line:#252a35; --line2:#323846;
+  --text:#eceef3; --muted:#a3aab8; --dim:#727a8a;
+  --acc:#ff8a4c; --acc2:#ffb27a; --acc-soft:#2a1810; --acc-ink:#ffa774;
+  --teal:#4fd1c5; --teal-soft:#0f2522; --btn1:#ffa066; --btn2:#ff8a4c;
+  --code:#1d212b; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -10px rgba(0,0,0,.5);
+  --shadow-lg:0 30px 80px -30px rgba(0,0,0,.8),0 8px 24px -12px rgba(0,0,0,.6);
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+code,kbd{white-space:nowrap;font-family:var(--mono);font-size:.86em;background:var(--code);padding:2px 6px;border-radius:6px}
+svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);transition:box-shadow .25s}
+.nav.scrolled{box-shadow:0 1px 0 var(--line),0 10px 30px -20px rgba(0,0,0,.25)}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:800;font-size:18px;letter-spacing:-.02em;white-space:nowrap}
+.brand svg{width:34px;height:34px;flex:none;filter:drop-shadow(0 4px 10px rgba(232,105,46,.35))}
+.nav .links{display:flex;gap:4px;margin-left:auto}
+.nav .links a{text-decoration:none;color:var(--muted);font-size:15px;font-weight:500;padding:8px 12px;border-radius:10px;transition:color .15s,background .15s}
+.nav .links a:hover{color:var(--text);background:var(--panel2)}
+.nav .btn{padding:10px 16px;font-size:15px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 24px;border-radius:12px;font:600 16.5px/1 var(--sans);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s,border-color .2s;white-space:nowrap}
+.btn svg.i{width:19px;height:19px}
+.btn.primary{background:linear-gradient(180deg,var(--btn1),var(--btn2));color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 24px -10px rgba(232,105,46,.75)}
+@media (prefers-color-scheme:dark){.btn.primary{color:#1b0d05}}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.btn.primary:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 30px -10px rgba(232,105,46,.85)}
+.btn.ghost{background:var(--panel);border-color:var(--line2);color:var(--text)}
+.btn.ghost:hover{transform:translateY(-1px);border-color:var(--dim)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:56px 0 40px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:120%;background:
+  radial-gradient(600px 380px at 78% 30%,color-mix(in srgb,var(--acc) 22%,transparent),transparent 70%),
+  radial-gradient(520px 360px at 12% 70%,color-mix(in srgb,var(--teal) 14%,transparent),transparent 70%);
+  pointer-events:none;animation:drift 18s ease-in-out infinite alternate}
+.hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(color-mix(in srgb,var(--text) 13%,transparent) 1px,transparent 1.2px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse at 60% 30%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 60% 30%,#000 10%,transparent 70%);pointer-events:none;opacity:.6}
+@keyframes drift{to{transform:translate(-3%,4%) scale(1.05)}}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);gap:52px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:9px;padding:7px 14px 7px 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:14px;font-weight:500;color:var(--muted);box-shadow:var(--shadow)}
+.pill{padding:7px 14px}
+.pill .pd{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px var(--acc-soft)}
+.nw{white-space:nowrap}
+h1{font-size:clamp(40px,5.4vw,66px);line-height:1.02;letter-spacing:-.045em;font-weight:800;margin:22px 0 22px}
+.grad{background:linear-gradient(100deg,var(--acc) 0%,#f59a3e 60%,var(--acc) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{font-size:clamp(18px,1.6vw,20.5px);color:var(--muted);line-height:1.55}
+.hero .sub b{color:var(--text);font-weight:600}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin:30px 0 22px}
+.checks{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14.5px;color:var(--muted)}
+.checks span{display:inline-flex;align-items:center;gap:7px}
+.checks svg.i{width:17px;height:17px;color:var(--teal);stroke-width:2.4}
+
+/* ---------- terminal ---------- */
+.stage{position:relative}
+.stage::before{content:"";position:absolute;inset:8% -4% -6% 6%;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 40%,transparent),color-mix(in srgb,var(--teal) 30%,transparent));filter:blur(48px);opacity:.55;border-radius:40px;z-index:-1}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tab{position:relative;overflow:hidden;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 85%,transparent);color:var(--muted);font:600 13.5px var(--sans);transition:background .2s,color .2s,border-color .2s}
+.tab svg.i{width:16px;height:16px}
+.tab:hover{color:var(--text)}
+.tab.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.tab .bar{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--acc)}
+.term{border-radius:16px;overflow:hidden;background:#0a0c11;border:1px solid #232835;box-shadow:var(--shadow-lg),0 0 0 1px rgba(255,255,255,.03) inset}
+.term-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#10131a;border-bottom:1px solid #1e232e;font:12.5px var(--mono);color:#6b7489}
+.term-bar i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.term-bar .t{margin-left:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.term-body{font-family:var(--mono);font-size:14px;line-height:1.65;padding:20px 22px 24px;height:548px;overflow:hidden;color:#d8dcea;scroll-behavior:smooth}
+.term-foot{display:flex;gap:14px;flex-wrap:wrap;padding:9px 16px;background:#10131a;border-top:1px solid #1e232e;font:11.5px var(--mono);color:#8a93a8}
+.term-foot span{display:inline-flex;align-items:center;gap:6px}
+.term-foot .dot{width:7px;height:7px;border-radius:50%;background:#5ee08f;box-shadow:0 0 8px #5ee08f}
+.ln{opacity:0;transform:translateY(5px);transition:opacity .3s,transform .3s;margin-bottom:5px;white-space:pre-wrap;word-break:break-word}
+.ln.show{opacity:1;transform:none}
+.ln.you{color:#fff;margin-top:12px}
+.ln.you::before{content:"you \203A  ";color:#ff8a4c;font-weight:600}
+.ln.cl{font-family:var(--sans);font-size:15px;margin-top:12px;color:#e7e9f0}
+.ln.cl::before{content:"\25CF  Claude   ";color:#ffb86b;font-weight:700;font-family:var(--mono);font-size:12.5px}
+.ln.run{color:#7c859a;padding-left:20px;font-size:13px}
+.ln.run .tool{color:#5d6578}
+.ln.run .ok{color:#5ee08f}.ln.run .warn{color:#ffb86b}
+.spin{display:inline-block;color:#ff8a4c;animation:spin 1s steps(8) infinite;margin-left:4px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ln.ask{color:#fff;font-family:var(--sans);font-size:15px;margin-top:12px;padding:12px 15px;border-radius:11px;background:rgba(167,139,250,.11);border:1px solid rgba(167,139,250,.38)}
+.ln.ask::before{content:"ASKS YOU   ";color:#b39dfc;font-weight:700;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em}
+.ln.ask .yn{display:flex;gap:8px;margin-top:9px}
+.ln.ask .yn span{font:600 12px var(--mono);padding:4px 10px;border-radius:7px;border:1px solid rgba(167,139,250,.4);color:#c9bcff;transition:background .25s,color .25s}
+.ln.ask .yn span.picked{background:#b39dfc;color:#120b25;border-color:#b39dfc}
+.ln.done{color:#5ee08f;font-weight:600;margin-top:14px;font-size:14px}
+.cursor{display:inline-block;width:8px;height:16px;background:#ff8a4c;vertical-align:-3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.demo-note{margin-top:12px;font-size:13.5px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.demo-note i{font-style:normal;display:inline-block;width:10px;height:10px;border-radius:3px;background:rgba(167,139,250,.5);border:1px solid #b39dfc;margin-right:6px;vertical-align:-1px}
+.replay{cursor:pointer;background:none;border:none;color:var(--acc-ink);font:600 13.5px var(--sans);display:inline-flex;align-items:center;gap:6px}
+.replay svg.i{width:15px;height:15px}
+.ctl{display:inline-flex;gap:14px}
+html:not(.js) .js{display:none}
+
+/* ---------- who strip ---------- */
+.who{padding:22px 0 8px}
+.who .wrap{display:flex;align-items:center;justify-content:center;gap:12px 14px;flex-wrap:wrap;color:var(--muted);font-size:15px}
+.who .chip{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--text);font-weight:600;font-size:14.5px}
+.who .chip svg.i{width:18px;height:18px;color:var(--acc)}
+
+/* ---------- sections ---------- */
+section.s{padding:104px 0 0}
+.head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 56px;align-items:end;margin-bottom:44px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:700 12.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--acc-ink);margin-bottom:14px}
+.eyebrow::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--acc)}
+h2{font-size:clamp(32px,3.8vw,50px);line-height:1.06;letter-spacing:-.035em;font-weight:800}
+.head p{font-size:18.5px;color:var(--muted)}
+h2{text-wrap:balance}
+h3{font-size:19px;letter-spacing:-.015em;font-weight:700;line-height:1.3}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+/* pain -> flip */
+.flip{display:grid;grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);align-items:stretch}
+.flip .card{padding:30px 30px 26px}
+.flip .tag{display:inline-flex;align-items:center;gap:8px;font:700 12.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
+.flip .old .tag{color:var(--dim)}
+.flip .new .tag{color:var(--acc-ink)}
+.flip ul{list-style:none;display:grid;gap:12px}
+.flip li{display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:start;font-size:16.5px}
+.flip li .b{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;margin-top:1px}
+.flip li .b svg.i{width:15px;height:15px;stroke-width:2.6}
+.flip .old{background:var(--panel2);box-shadow:none}
+.flip .old li{color:var(--muted)}
+.flip .old li .b{background:var(--line);color:var(--dim)}
+.flip .old li s{text-decoration-color:color-mix(in srgb,var(--dim) 60%,transparent)}
+.flip .new{border-color:color-mix(in srgb,var(--acc) 40%,var(--line));background:linear-gradient(180deg,var(--acc-soft),var(--panel) 65%)}
+.flip .new li .b{background:var(--acc);color:#fff}
+@media (prefers-color-scheme:dark){.flip .new li .b,details[open] summary .pm{color:#1b0d05}}
+.flip .new li b{font-weight:600}
+.flip .arrow{display:grid;place-items:center}
+.flip .arrow span{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--text);color:var(--bg);box-shadow:var(--shadow)}
+.flip .foot{margin-top:20px;padding-top:16px;border-top:1px dashed var(--line2);font-size:15px;color:var(--muted)}
+
+/* steps */
+.steps3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;counter-reset:n}
+.step{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.step .vis{height:170px;display:grid;place-items:center;background:var(--panel2);position:relative;overflow:hidden}
+.step .txt{padding:22px 24px 26px}
+.step .num{font:700 13px var(--mono);color:var(--acc-ink);margin-bottom:8px;display:block}
+.step p{color:var(--muted);font-size:15.5px;margin-top:6px}
+/* step visuals */
+.v-plug{position:relative;width:220px;height:110px}
+.v-plug .lap{position:absolute;right:0;top:12px;width:130px;height:86px;border-radius:10px;background:var(--panel);border:1px solid var(--line2);box-shadow:var(--shadow)}
+.v-plug .lap::before{content:"";position:absolute;left:-1px;top:34px;width:8px;height:16px;border-radius:2px;background:var(--line2)}
+.v-plug .lap::after{content:"Start";position:absolute;inset:auto 14px 14px auto;font:600 11px var(--sans);color:#fff;background:#b8481a;padding:4px 9px;border-radius:6px;opacity:0;transition:opacity .4s .9s}
+.v-plug .usb{position:absolute;left:0;top:41px;width:96px;height:28px;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.v-plug .usb svg{width:96px;height:28px}
+.in .v-plug .usb,.noanim .v-plug .usb{transform:translateX(-6px)}
+.v-plug .usb{transform:translateX(-56px)}
+.in .v-plug .lap::after,.noanim .v-plug .lap::after{opacity:1}
+.v-chat{display:grid;gap:8px;width:230px}
+.v-chat div{font-size:13.5px;padding:9px 13px;border-radius:13px;max-width:92%;line-height:1.35;box-shadow:var(--shadow)}
+.v-chat .me{justify-self:end;background:var(--text);color:var(--bg);border-bottom-right-radius:4px}
+.v-chat .ai{background:var(--panel);border:1px solid var(--line);border-bottom-left-radius:4px}
+.v-chat .ai b{color:var(--acc-ink)}
+.v-yes{display:grid;gap:12px;justify-items:center}
+.v-yes .q{font-size:13.5px;background:var(--panel);border:1px solid rgba(167,139,250,.5);padding:9px 14px;border-radius:12px;box-shadow:var(--shadow)}
+.v-yes .yn{display:flex;gap:10px}
+.v-yes .yn span{font:600 13px var(--sans);padding:7px 18px;border-radius:9px;border:1px solid var(--line2);background:var(--panel)}
+.v-yes .yn .y{background:#7c5cf0;border-color:#7c5cf0;color:#fff;box-shadow:0 8px 18px -8px #7c5cf0}
+
+/* fixes */
+.fixes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.fix{padding:22px 22px 24px;transition:transform .2s,border-color .2s,box-shadow .2s}
+.fix:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--acc) 45%,var(--line));box-shadow:var(--shadow-lg)}
+.fix .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--acc-soft);color:var(--acc-ink);margin-bottom:16px}
+.fix:nth-child(even) .ic{background:var(--teal-soft);color:var(--teal)}
+.fix p{color:var(--muted);font-size:15px;margin-top:6px}
+.kit{margin-top:22px;padding:24px 26px;display:grid;grid-template-columns:1fr;gap:10px}
+.kit .chips+.lbl{margin-top:8px}
+.kit .lbl{font:700 12.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font:500 13.5px var(--mono);padding:6px 11px;border-radius:8px;background:var(--panel2);border:1px solid var(--line)}
+.kit .note{grid-column:1/-1;font-size:15px;color:var(--muted);padding-top:14px;border-top:1px dashed var(--line2)}
+
+/* safety (always-dark band) */
+.safe{margin-top:104px;padding:96px 0;background:#0c0e13;color:#eceef3;position:relative;overflow:hidden}
+.safe::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 400px at 85% 0%,rgba(255,138,76,.18),transparent 70%),radial-gradient(600px 400px at 0% 100%,rgba(79,209,197,.12),transparent 70%);pointer-events:none}
+.safe .wrap{position:relative}
+.safe .eyebrow{color:#ffa774}.safe .eyebrow::before{background:#ff8a4c}
+.safe .head p{color:#a3aab8}
+.guards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.guard{padding:26px 24px;border-radius:var(--r);background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09)}
+.guard .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(255,138,76,.22),rgba(255,138,76,.06));color:#ffa774;border:1px solid rgba(255,138,76,.3);margin-bottom:18px}
+.guard:nth-child(even) .ic{background:linear-gradient(135deg,rgba(79,209,197,.2),rgba(79,209,197,.05));color:#4fd1c5;border-color:rgba(79,209,197,.3)}
+.guard p{color:#a3aab8;font-size:15px;margin-top:8px}
+.lost{margin-top:18px;padding:20px 24px;border-radius:var(--r);border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.025);display:flex;gap:16px;align-items:center;color:#c3c8d4;font-size:15.5px}
+.lost svg.i{color:#ffa774;width:24px;height:24px}
+.lost b{color:#fff}
+
+/* platforms */
+.plats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.plat{padding:26px 26px 24px}
+.plat .top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.plat .logo{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:var(--text);color:var(--bg)}
+.plat .logo svg{width:24px;height:24px}
+.plat p{color:var(--muted);font-size:15.5px}
+.plat .how{margin-top:16px;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--muted)}
+.archs{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:15px;color:var(--muted)}
+.archs b{color:var(--text)}
+.badge{font:600 13px var(--sans);padding:6px 12px;border-radius:999px;background:var(--teal-soft);color:var(--teal)}
+
+/* needs */
+.needs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.need{padding:24px}
+.need .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--panel2);border:1px solid var(--line);margin-bottom:14px}
+.need p{color:var(--muted);font-size:15px;margin-top:4px}
+.setupline{margin-top:16px;padding:20px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:space-between}
+.setupline .l{display:flex;align-items:center;gap:14px;font-size:16px}
+.setupline .l svg.i{color:var(--acc);width:26px;height:26px}
+.setupline .l span{color:var(--muted)}
+
+/* faq */
+.faq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:14px;transition:border-color .2s,box-shadow .2s;align-self:start}
+details[open]{border-color:color-mix(in srgb,var(--acc) 40%,var(--line));box-shadow:var(--shadow)}
+summary{cursor:pointer;list-style:none;padding:20px 22px;font-weight:600;font-size:17px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary .pm{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--panel2);color:var(--muted);transition:transform .25s,background .2s,color .2s}
+summary .pm svg.i{width:15px;height:15px;stroke-width:2.4}
+details[open] summary .pm{transform:rotate(45deg);background:var(--acc);color:#fff}
+details .a{padding:0 22px 20px;color:var(--muted);font-size:16px}
+details .a p+p{margin-top:8px}
+details .a a{color:var(--acc-ink);font-weight:600}
+
+/* final cta */
+.final{margin-top:112px;padding:0 28px}
+.final .box{max-width:var(--wrap);margin:0 auto;border-radius:28px;padding:72px 48px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(135deg,#c4511f,#a8421a 50%,#8f3613);color:#fff;box-shadow:var(--shadow-lg)}
+.final .box::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.22) 1px,transparent 1.3px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 75%);mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 75%)}
+.final .box>*{position:relative}
+.final h2{color:#fff}
+.final p{font-size:19px;opacity:.92;margin-top:14px}
+.final .cta{justify-content:center;margin:32px 0 0}
+.final .btn.primary{background:#fff;color:#a8421a;box-shadow:0 14px 30px -12px rgba(0,0,0,.4)}
+.final .btn.ghost{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.45);color:#fff}
+.final .fine{font-size:14px;opacity:.85;margin-top:20px}
+
+/* footer */
+footer{padding:64px 0 48px;color:var(--muted);font-size:14.5px}
+footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px 40px;align-items:start}
+footer .links{display:flex;gap:22px;flex-wrap:wrap}
+footer .links a{text-decoration:none}
+footer .links a:hover{color:var(--text)}
+footer .legal{grid-column:1/-1;padding-top:22px;border-top:1px solid var(--line);font-size:13.5px;color:var(--dim);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* reveal */
+.anim .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.anim .rv.in{opacity:1;transform:none}
+.anim .rv.d1{transition-delay:.08s}.anim .rv.d2{transition-delay:.16s}.anim .rv.d3{transition-delay:.24s}
+
+@media (max-width:1080px){
+  .hero .wrap{grid-template-columns:1fr;gap:40px}
+  .fixes,.guards,.needs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .head{grid-template-columns:1fr;align-items:start}
+}
+@media (max-width:860px){
+  .nav .links{display:none}
+  .nav .btn{margin-left:auto}
+  .flip{grid-template-columns:1fr;gap:0}
+  .flip .arrow{height:56px}.flip .arrow span{transform:rotate(90deg)}
+  .steps3,.plats,.faq{grid-template-columns:1fr}
+  .step .vis{height:150px}
+  section.s{padding-top:80px}
+  .safe{margin-top:80px;padding:72px 0}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .wrap{padding:0 18px}
+  .nav .wrap{height:60px;gap:12px}
+  .brand{font-size:16.5px}.brand svg{width:30px;height:30px}
+  .nav .btn{padding:9px 13px;font-size:14px}
+  .nav .btn .long{display:none}
+  .hero{padding:32px 0 24px}
+  h1{font-size:40px}
+  .cta .btn{flex:1 1 100%;justify-content:center}
+  .fixes,.guards,.needs{grid-template-columns:1fr}
+  .fix,.need{display:grid;grid-template-columns:44px 1fr;column-gap:16px;padding:18px}
+  .fix .ic,.need .ic{grid-row:span 2;margin:0}
+  .fix p,.need p{margin-top:2px}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:4px}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none;font-size:12.5px;padding:7px 9px}
+  .tab svg.i{display:none}
+  .term-body{font-size:12.5px;padding:16px 14px 18px;height:640px}
+  .ln.cl,.ln.ask{font-size:14px}
+  .ln.run{padding-left:10px;font-size:12px}
+  .flip .card{padding:24px 20px}
+  .lost{flex-direction:column;align-items:flex-start}
+  .final{padding:0 12px}
+  .final .box{padding:52px 22px;border-radius:22px}
+  footer .wrap{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9a5a"/><stop offset="1" stop-color="#e0532a"/></linearGradient>
+  </defs>
+  <symbol id="logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="url(#lg)"/><rect x="4.5" y="12.5" width="7" height="7" rx="1.2" fill="#fff" opacity=".75"/><rect x="10.5" y="9.5" width="17" height="13" rx="3.2" fill="#fff"/><path d="M14.6 13.4l2.6 2.6-2.6 2.6" fill="none" stroke="#e8692e" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.4 18.6h4" stroke="#e8692e" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></symbol>
+  <symbol id="i-replay" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5"/></symbol>
+  <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></symbol>
+  <symbol id="i-printer" viewBox="0 0 24 24"><path d="M7 9V4h10v5M7 17H5a1.5 1.5 0 0 1-1.5-1.5v-5A1.5 1.5 0 0 1 5 9h14a1.5 1.5 0 0 1 1.5 1.5v5A1.5 1.5 0 0 1 19 17h-2"/><path d="M7 14h10v6H7z"/></symbol>
+  <symbol id="i-update" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12a8 8 0 0 1 14.3-4.9"/><path d="M18.5 3v4.2h-4.2M5.5 21v-4.2h4.2"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4.5 17a8.5 8.5 0 1 1 15 0"/><path d="M12 13l-3.5-4"/><circle cx="12" cy="13" r="1.3"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.6 16a5 5 0 0 1 6.8 0"/><circle cx="12" cy="19.2" r=".9"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="13" rx="2"/><path d="M8 21h8M12 8.5v4M12 15h.01"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3M12 14.5v2.5"/></symbol>
+  <symbol id="i-broom" viewBox="0 0 24 24"><path d="M4 20l7-7M10 9.5l4.5 4.5M14.5 14L19 20H8.5L10 9.5z" /><path d="M13 4.5l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M12 21a7 7 0 0 1-7-7V9.5a1.5 1.5 0 0 1 3 0V12"/><path d="M8 11V5.5a1.5 1.5 0 0 1 3 0V11M11 10.5V4a1.5 1.5 0 0 1 3 0v6.5M14 10.5V5.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-5 7"/></symbol>
+  <symbol id="i-unplug" viewBox="0 0 24 24"><path d="M9 3.5v4M15 3.5v4M6.5 7.5h11V11a5.5 5.5 0 0 1-11 0zM12 16.5v4"/><path d="M3 3l18 18" opacity=".55"/></symbol>
+  <symbol id="i-usb" viewBox="0 0 24 24"><rect x="7" y="9" width="10" height="12" rx="2"/><path d="M9 9V3.5h6V9M10.8 6h.01M13.2 6h.01"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4.5"/><path d="M11.2 11.8L20 3M16.5 6.5l2.5 2.5M14.5 8.5l2 2"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="4.5" y="5" width="15" height="10.5" rx="1.5"/><path d="M2.5 19h19"/></symbol>
+  <symbol id="i-clock2" viewBox="0 0 24 24"><path d="M6 3h12M6 21h12M7 3c0 5 10 5 10 9s-10 4-10 9M17 3c0 5-10 5-10 9s10 4 10 9"/></symbol>
+  <symbol id="i-school" viewBox="0 0 24 24"><path d="M2.5 9L12 4.5 21.5 9 12 13.5z"/><path d="M6.5 11v5c3 2.5 8 2.5 11 0v-5M21.5 9v5"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3l7.5-7.5"/><path d="M14.5 6.5L17.5 3.5a4 4 0 0 1 3 3l-3 3"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11L12 4l8.5 7"/><path d="M6 9.5V20h12V9.5M10 20v-5h4v5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></symbol>
+  <symbol id="i-win" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-term" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M7 10l3 2.5L7 15M12.5 15.5H17"/></symbol>
+  <symbol id="i-cmd" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12M6 9h12M6 15h12"/><path d="M9 6a3 3 0 1 0-3 3M15 6a3 3 0 1 1 3 3M9 18a3 3 0 1 1-3-3M15 18a3 3 0 1 0 3-3"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="/"><svg><use href="#logo"/></svg>Pocket Help Desk</a>
+    <nav class="links">
+      <a href="#how">How it works</a>
+      <a href="#fixes">What it fixes</a>
+      <a href="#safe">Safety</a>
+      <a href="#faq">FAQ</a>
+      <a href="/guide/">Guide</a>
+    </nav>
+    <a class="btn primary" href="/pocket-help-desk-setup.zip" download><svg class="i"><use href="#i-dl"/></svg><span>Download<span class="long"> the setup</span></span></a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="pill"><span class="pd"></span>Claude Code on a USB stick</span>
+      <h1><span class="nw">Your whole</span> <span class="nw">IT team,</span><br><span class="grad nw">in your pocket.</span></h1>
+      <p class="sub">Plug it into a broken computer and say what's wrong in plain words. Claude finds the problem, explains it, and <b>fixes it once you say yes.</b> Claude itself is never installed on the computer.</p>
+      <div class="cta">
+        <a class="btn primary" href="/pocket-help-desk-setup.zip" download><svg class="i"><use href="#i-dl"/></svg>Download the setup</a>
+        <a class="btn ghost" href="#how">How it works<svg class="i"><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="checks">
+        <span><svg class="i"><use href="#i-check"/></svg>Free setup, under 50 KB</span>
+        <span><svg class="i"><use href="#i-check"/></svg>Windows, Mac and Linux</span>
+        <span><svg class="i"><use href="#i-check"/></svg>Uses your own Claude plan</span>
+      </div>
+    </div>
+
+    <div class="stage" id="demo">
+      <div class="tabs" role="tablist" aria-label="Demo tickets">
+        <button class="tab on" role="tab" aria-selected="true" aria-controls="term" data-s="speakers"><svg class="i"><use href="#i-speaker"/></svg>No sound<span class="bar"></span></button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="term" data-s="printer"><svg class="i"><use href="#i-printer"/></svg>Printer offline<span class="bar"></span></button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="term" data-s="slow"><svg class="i"><use href="#i-gauge"/></svg>So slow<span class="bar"></span></button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="term" data-s="update"><svg class="i"><use href="#i-update"/></svg>Updates fail<span class="bar"></span></button>
+      </div>
+      <div class="term">
+        <div class="term-bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">E:\Pocket Help Desk &gt; claude</span></div>
+        <div class="term-body" id="term" role="img" aria-label="Demo: you describe the problem in plain words, Claude checks the computer, explains the cause, asks before changing anything, then confirms the fix.">
+<div class="ln you show">The speakers stopped working. It was plugged into the classroom projector yesterday.</div>
+<div class="ln cl show">Let me take a look.</div>
+<div class="ln run show">Sound devices <span class="tool">…</span> <span class="ok">3 found</span></div>
+<div class="ln run show">Audio drivers <span class="tool">…</span> <span class="ok">all working</span></div>
+<div class="ln run show">Where sound is going <span class="tool">…</span> <span class="warn">"Projector (HDMI)", not connected</span></div>
+<div class="ln cl show">Found it. Windows is still sending sound to the projector, which isn't plugged in anymore. The speakers are fine.</div>
+<div class="ln ask show">Switch the sound back to the laptop's own speakers?<div class="yn"><span class="picked">y  yes</span><span>n  no</span></div></div>
+<div class="ln you show">yes</div>
+<div class="ln run show">Sound output set to "Speakers" <span class="tool">…</span> <span class="ok">done</span></div>
+<div class="ln run show">Playing a test sound <span class="tool">…</span> <span class="ok">heard</span></div>
+<div class="ln done show">✓ Fixed. Report saved to the stick.</div>
+</div>
+        <div class="term-foot"><span><b class="dot"></b>running from the stick</span><span>admin: yes</span><span>changes: only with your yes</span></div>
+      </div>
+      <div class="demo-note"><span><i></i>Purple = Claude asking you. Nothing changes until you say yes.</span><span class="ctl"><button class="replay js" id="pause" aria-pressed="false"><svg class="i"><use href="#i-pause"/></svg><span>Pause</span></button><button class="replay js" id="replay"><svg class="i"><use href="#i-replay"/></svg>Replay</button></span></div>
+    </div>
+  </div>
+</section>
+
+<div class="who">
+  <div class="wrap">
+    <span>Made for the person everyone calls:</span>
+    <span class="chip"><svg class="i"><use href="#i-school"/></svg>School and office IT</span>
+    <span class="chip"><svg class="i"><use href="#i-wrench"/></svg>Repair techs</span>
+    <span class="chip"><svg class="i"><use href="#i-home"/></svg>The family computer nerd</span>
+  </div>
+</div>
+
+<section class="s" id="why">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="eyebrow">The problem</div><h2>Every ticket is a treasure hunt.</h2></div>
+      <p>You know how to fix it. Finding it is the slow part: the right setting, the right log, the right driver, on someone else's laptop, with them watching.</p>
+    </div>
+    <div class="flip">
+      <div class="card old rv">
+        <div class="tag"><svg class="i"><use href="#i-x"/></svg>The usual way</div>
+        <ul>
+          <li><span class="b"><svg class="i"><use href="#i-x"/></svg></span><s>Click through settings, Device Manager and event logs</s></li>
+          <li><span class="b"><svg class="i"><use href="#i-x"/></svg></span><s>Search the error code, read forum threads from 2019</s></li>
+          <li><span class="b"><svg class="i"><use href="#i-x"/></svg></span><s>Install some tool on a laptop that isn't yours</s></li>
+          <li><span class="b"><svg class="i"><use href="#i-x"/></svg></span><s>Forget to remove it</s></li>
+          <li><span class="b"><svg class="i"><use href="#i-x"/></svg></span><s>Explain it all to someone who just wants it fixed</s></li>
+        </ul>
+      </div>
+      <div class="arrow rv d1"><span><svg class="i"><use href="#i-arrow"/></svg></span></div>
+      <div class="card new rv d2">
+        <div class="tag"><svg class="i"><use href="#i-check"/></svg>With Pocket Help Desk</div>
+        <ul>
+          <li><span class="b"><svg class="i"><use href="#i-check"/></svg></span><span><b>Plug in the stick.</b> Double-click Start.</span></li>
+          <li><span class="b"><svg class="i"><use href="#i-check"/></svg></span><span><b>Say what's wrong,</b> like you'd tell a colleague.</span></li>
+          <li><span class="b"><svg class="i"><use href="#i-check"/></svg></span><span><b>Claude does the digging</b> with a real repair toolkit.</span></li>
+          <li><span class="b"><svg class="i"><use href="#i-check"/></svg></span><span><b>Read what it found,</b> in plain words.</span></li>
+          <li><span class="b"><svg class="i"><use href="#i-check"/></svg></span><span><b>Say yes, then unplug.</b> Nothing left behind.</span></li>
+        </ul>
+        <div class="foot">You stay the boss. Claude is the nerd who never gets tired of reading logs.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="how">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="eyebrow">How it works</div><h2>Plug in. Say it. Say yes.</h2></div>
+      <p>Nothing to set up on the laptop first, no accounts to create, no settings to learn. If you can describe the problem, you can fix it.</p>
+    </div>
+    <div class="steps3">
+      <div class="card step rv">
+        <div class="vis"><div class="v-plug"><div class="usb"><svg viewBox="0 0 96 28"><rect x="0" y="2" width="70" height="24" rx="6" fill="url(#lg)"/><path d="M26 10l4 4-4 4M34 18h7" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="70" y="6" width="24" height="16" rx="2" fill="#b9bec9"/><rect x="77" y="10" width="4" height="3" fill="#7d8494"/><rect x="85" y="10" width="4" height="3" fill="#7d8494"/></svg></div><div class="lap"></div></div></div>
+        <div class="txt"><span class="num">01</span><h3>Plug in and double-click Start</h3><p>Windows asks for admin so Claude can fix things. Say No and it can still look.</p></div>
+      </div>
+      <div class="card step rv d1">
+        <div class="vis"><div class="v-chat"><div class="me">The printer says it's offline.</div><div class="ai"><b>Claude:</b> Checking the queue and the network.</div></div></div>
+        <div class="txt"><span class="num">02</span><h3>Say what's wrong, in plain words</h3><p>Claude checks the computer, finds the cause, and tells you what it found.</p></div>
+      </div>
+      <div class="card step rv d2">
+        <div class="vis"><div class="v-yes"><div class="q">Clear the stuck jobs and reconnect?</div><div class="yn"><span class="y">Yes</span><span>No</span></div></div></div>
+        <div class="txt"><span class="num">03</span><h3>Say yes, then unplug</h3><p>Every fix waits for your yes. Press Q when you're done and it checks the computer for leftovers.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="fixes">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="eyebrow">What it fixes</div><h2>The tickets you get every week.</h2></div>
+      <p>Claude reads the evidence before it touches anything, then goes straight to the usual suspects.</p>
+    </div>
+    <div class="fixes">
+      <div class="card fix rv"><div class="ic"><svg class="i"><use href="#i-speaker"/></svg></div><h3>No sound</h3><p>Sound going to the wrong device, a muted app, a driver an update broke.</p></div>
+      <div class="card fix rv d1"><div class="ic"><svg class="i"><use href="#i-printer"/></svg></div><h3>Printer offline</h3><p>Stuck print jobs, a printer that moved, a print service that crashed.</p></div>
+      <div class="card fix rv d2"><div class="ic"><svg class="i"><use href="#i-wifi"/></svg></div><h3>Wi-Fi trouble</h3><p>A switched-off adapter, a broken setting, a missing driver.</p></div>
+      <div class="card fix rv d3"><div class="ic"><svg class="i"><use href="#i-update"/></svg></div><h3>Updates fail</h3><p>A full disk, a stuck update, a bad update to roll back.</p></div>
+      <div class="card fix rv"><div class="ic"><svg class="i"><use href="#i-gauge"/></svg></div><h3>"It's so slow"</h3><p>Startup clutter, a dying disk, something eating the memory.</p></div>
+      <div class="card fix rv d1"><div class="ic"><svg class="i"><use href="#i-alert"/></svg></div><h3>Blue screens</h3><p>Reads the crash records and names the driver behind them.</p></div>
+      <div class="card fix rv d2"><div class="ic"><svg class="i"><use href="#i-clock"/></svg></div><h3>"Worked until yesterday"</h3><p>A timeline of installs, updates, crashes and shutdowns.</p></div>
+      <div class="card fix rv d3"><div class="ic"><svg class="i"><use href="#i-eye"/></svg></div><h3>Something looks off</h3><p>What starts with the computer, what runs, what talks to the internet.</p></div>
+    </div>
+    <div class="card kit rv">
+      <div class="lbl">Claude's toolkit</div>
+      <div class="chips"><span>Sysinternals</span><span>smartctl</span><span>BlueScreenView</span><span>DriverView</span><span>LastActivityView</span><span>WifiInfoView</span><span>PSWindowsUpdate</span><span>7-Zip</span></div>
+      <div class="lbl">Yours to click</div>
+      <div class="chips"><span>WinUtil</span><span>Rufus</span><span>O&amp;O ShutUp10++</span></div>
+      <div class="note">That's the Windows kit, free tools from Microsoft and other trusted makers. You don't need to learn them: Claude picks the right one. On a Mac or Linux computer it uses the tools already built in.</div>
+    </div>
+  </div>
+</section>
+
+<section class="safe" id="safe">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="eyebrow">Why it's safe</div><h2>Powerful, and on a short leash.</h2></div>
+      <p>An assistant that can run commands should earn your trust. These four rules are built into the stick, not left to good intentions.</p>
+    </div>
+    <div class="guards">
+      <div class="guard rv"><div class="ic"><svg class="i"><use href="#i-lock"/></svg></div><h3>Your login is locked</h3><p>It sits on the stick, encrypted with your passphrase. It's unlocked only into memory while you work, never saved on the computer.</p></div>
+      <div class="guard rv d1"><div class="ic"><svg class="i"><use href="#i-broom"/></svg></div><h3>Nothing left behind</h3><p>Claude and its tools run from the stick, never installed. When you quit, it checks the computer for leftovers in the usual places and tells you it's clean.</p></div>
+      <div class="guard rv d2"><div class="ic"><svg class="i"><use href="#i-hand"/></svg></div><h3>Asks before every change</h3><p>Claude explains each fix in a sentence and waits for your yes. Looking is free. Changing needs you.</p></div>
+      <div class="guard rv d3"><div class="ic"><svg class="i"><use href="#i-unplug"/></svg></div><h3>Pull it out anytime</h3><p>Yank the stick mid-session and everything closes within a few seconds. No half-running leftovers.</p></div>
+    </div>
+    <div class="lost rv"><svg class="i"><use href="#i-key"/></svg><span><b>Lost the stick?</b> Without your passphrase the login on it is useless. To be extra sure, remove it in a minute at claude.ai under Settings &gt; Claude Code.</span></div>
+  </div>
+</section>
+
+<section class="s" id="platforms">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="eyebrow">Works everywhere</div><h2>One stick. Any computer.</h2></div>
+      <p>Windows, Mac and Linux, on Intel and AMD chips and on ARM. Choose "Mac or Linux too" when you set up the stick.</p>
+    </div>
+    <div class="plats">
+      <div class="card plat rv"><div class="top"><div class="logo"><svg class="i"><use href="#i-win"/></svg></div><h3>Windows</h3></div><p>The full repair toolkit rides along. Click Yes to the admin prompt so Claude can fix, or No to let it only look.</p><div class="how">Double-click <code>Start (Windows).cmd</code></div></div>
+      <div class="card plat rv d1"><div class="top"><div class="logo"><svg class="i"><use href="#i-cmd"/></svg></div><h3>Mac</h3></div><p>Claude uses the tools already built into macOS. The first time, right-click Start and choose Open.</p><div class="how">Double-click <code>Start (Mac).command</code></div></div>
+      <div class="card plat rv d2"><div class="top"><div class="logo"><svg class="i"><use href="#i-term"/></svg></div><h3>Linux</h3></div><p>Claude uses the tools already built into Linux. Same menu, same rules, same locked login.</p><div class="how">Run <code>bash start-linux.sh</code></div></div>
+    </div>
+    <div class="archs rv"><span class="badge">x64 + ARM</span><span>No Wi-Fi on the broken laptop? <b>Lend it your phone's internet over a USB cable.</b> <a href="/guide/#offline" style="color:var(--acc-ink);font-weight:600">Here's how</a></span></div>
+  </div>
+</section>
+
+<section class="s" id="need">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="eyebrow">What you need</div><h2>Four things. You probably have three.</h2></div>
+      <p>Set it up once on a Windows computer. After that, the stick goes anywhere.</p>
+    </div>
+    <div class="needs">
+      <div class="card need rv"><div class="ic"><svg class="i"><use href="#i-usb"/></svg></div><h3>A USB stick</h3><p>32 GB or more. Setup can format it for you.</p></div>
+      <div class="card need rv d1"><div class="ic"><svg class="i"><use href="#i-key"/></svg></div><h3>Your Claude plan</h3><p>Your own Claude Pro or Max plan. The stick signs in as you.</p></div>
+      <div class="card need rv d2"><div class="ic"><svg class="i"><use href="#i-laptop"/></svg></div><h3>A Windows computer</h3><p>With internet, for the one-time setup.</p></div>
+      <div class="card need rv d3"><div class="ic"><svg class="i"><use href="#i-clock2"/></svg></div><h3>10 to 30 minutes</h3><p>Once. Setup does the downloading while you do something else.</p></div>
+    </div>
+    <div class="card setupline rv">
+      <div class="l"><svg class="i"><use href="#i-dl"/></svg><div><b>The setup is free and tiny: under 50 KB of scripts.</b><br><span>It fetches every program from its official source onto your stick, about 1.3 GB, and checks each file.</span></div></div>
+      <a class="btn primary" href="/pocket-help-desk-setup.zip" download><svg class="i"><use href="#i-dl"/></svg>Download the setup</a>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="faq">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="eyebrow">FAQ</div><h2>Good questions.</h2></div>
+      <p>Still curious? The <a href="/guide/" style="color:var(--acc-ink);font-weight:600">guide</a> has every step and every tool.</p>
+    </div>
+    <div class="faq">
+      <details class="rv"><summary>Do I need a Claude plan?<span class="pm"><svg class="i"><use href="#i-plus"/></svg></span></summary><div class="a"><p>Yes: your own Claude Pro or Max plan. The stick runs Claude Code signed in as you, so the work counts toward your plan like any other Claude Code session.</p><p>Codex (ChatGPT's assistant) is an optional extra on menu item 2, for anyone with a ChatGPT plan.</p></div></details>
+      <details class="rv"><summary>Does it install anything on the computer?<span class="pm"><svg class="i"><use href="#i-plus"/></svg></span></summary><div class="a"><p>Not of its own. Claude and its tools run straight from the stick, with their own settings and notes, and are never installed. If a fix needs something new, like a driver or an update, Claude installs it only after you say yes.</p><p>When you quit, it checks the computer for leftovers in the usual places and tells you it's clean.</p></div></details>
+      <details class="rv"><summary>What if the Wi-Fi is the thing that's broken?<span class="pm"><svg class="i"><use href="#i-plus"/></svg></span></summary><div class="a"><p>Claude needs internet, so plug your phone into the laptop with its USB cable and turn on USB tethering. The laptop goes online through your phone, and Claude can fix the Wi-Fi from there.</p><p><a href="/guide/#offline">Step by step in the guide</a></p></div></details>
+      <details class="rv"><summary>What if I lose the stick?<span class="pm"><svg class="i"><use href="#i-plus"/></svg></span></summary><div class="a"><p>Your login on it is locked with your passphrase, so the stick is useless to whoever finds it. To be completely sure, remove the stick's login at claude.ai under Settings &gt; Claude Code. It takes a minute.</p></div></details>
+      <details class="rv"><summary>Does it work on Macs and Linux?<span class="pm"><svg class="i"><use href="#i-plus"/></svg></span></summary><div class="a"><p>Yes, on Intel, AMD and ARM machines. Say yes to "Mac or Linux too?" during setup. On those computers Claude uses the tools that come built in; the extra repair toolkit is for Windows.</p></div></details>
+      <details class="rv"><summary>Will Claude change things without asking?<span class="pm"><svg class="i"><use href="#i-plus"/></svg></span></summary><div class="a"><p>No. It explains each fix and waits for your yes. On Windows you can also click No at the admin prompt, and then it can only look, not change.</p></div></details>
+      <details class="rv"><summary>How does the setup work?<span class="pm"><svg class="i"><use href="#i-plus"/></svg></span></summary><div class="a"><p>Download the free setup (under 50 KB), unzip it on a Windows computer and double-click <code>Set up my stick.cmd</code>. It fetches every program from its official source onto your stick (about 1.3 GB, 10 to 30 minutes) and checks each file is genuine.</p></div></details>
+      <details class="rv"><summary>Is this made by Anthropic?<span class="pm"><svg class="i"><use href="#i-plus"/></svg></span></summary><div class="a"><p>No. Pocket Help Desk is an independent project. It runs Claude Code, Anthropic's assistant, with your own Claude account.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="box rv">
+    <h2>Be the one who fixes it.</h2>
+    <p>Put a help desk in your pocket. Setup takes one coffee.</p>
+    <div class="cta">
+      <a class="btn primary" href="/pocket-help-desk-setup.zip" download><svg class="i"><use href="#i-dl"/></svg>Download the setup</a>
+      <a class="btn ghost" href="/guide/"><svg class="i"><use href="#i-book"/></svg>Read the guide</a>
+    </div>
+    <div class="fine">Free setup, under 50 KB. Needs a USB stick (32 GB+) and your own Claude Pro or Max plan.</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="/"><svg><use href="#logo"/></svg>Pocket Help Desk</a>
+    <nav class="links">
+      <a href="/guide/">Guide</a>
+      <a href="/guide/#offline">No internet?</a>
+      <a href="#faq">FAQ</a>
+      <a href="/pocket-help-desk-setup.zip" download>Download</a>
+    </nav>
+    <div class="legal"><span>Pocket Help Desk is an independent project, not affiliated with Anthropic. Claude is a trademark of Anthropic.</span><span>pockethelpdesk.com</span></div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const shot = location.search.includes('shot');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const instant = reduce || shot;
+  const root = document.documentElement;
+  root.classList.add('js');
+
+  // nav shadow on scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', scrollY > 8);
+  addEventListener('scroll', onScroll, {passive: true}); onScroll();
+
+  // reveal on scroll
+  if (instant || !('IntersectionObserver' in window)) {
+    document.querySelectorAll('.step').forEach(e => e.classList.add('in'));
+    document.body.classList.add('noanim');
+  } else {
+    root.classList.add('anim');
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), {threshold: .12, rootMargin: '0px 0px -40px 0px'});
+    document.querySelectorAll('.rv').forEach(e => io.observe(e));
+  }
+
+  // terminal demo
+  const S = {
+    speakers: [
+      ["you", "The speakers stopped working. It was plugged into the classroom projector yesterday."],
+      ["cl", "Let me take a look."],
+      ["run", "Sound devices", "3 found", "ok"],
+      ["run", "Audio drivers", "all working", "ok"],
+      ["run", "Where sound is going", "\"Projector (HDMI)\", not connected", "warn"],
+      ["cl", "Found it. Windows is still sending sound to the projector, which isn't plugged in anymore. The speakers are fine."],
+      ["ask", "Switch the sound back to the laptop's own speakers?"],
+      ["you", "yes"],
+      ["run", "Sound output set to \"Speakers\"", "done", "ok"],
+      ["run", "Playing a test sound", "heard", "ok"],
+      ["done", "\u2713 Fixed. Report saved to the stick."]
+    ],
+    printer: [
+      ["you", "Can't print. It just says the printer is offline."],
+      ["cl", "Checking the printer setup."],
+      ["run", "Printer \"Room 12 LaserJet\"", "offline", "warn"],
+      ["run", "Print queue", "14 jobs stuck", "warn"],
+      ["run", "Looking for the printer on the network", "found at a new address", "ok"],
+      ["cl", "Two problems. The printer got a new network address, so the laptop is looking in the old place. And 14 stuck jobs are jamming the queue."],
+      ["ask", "Clear the stuck jobs and point the laptop at the printer's new address?"],
+      ["you", "go ahead"],
+      ["run", "Cleared 14 jobs, restarted the print service", "done", "ok"],
+      ["run", "Updated the printer address", "done", "ok"],
+      ["run", "Printing a test page", "printed", "ok"],
+      ["done", "\u2713 Fixed. Other laptops using this printer need the same fix."]
+    ],
+    slow: [
+      ["you", "This laptop takes forever to start and everything is sluggish."],
+      ["cl", "I'll check the disk's health, what starts with Windows, and what's using the memory."],
+      ["run", "Disk health \u00b7 smartctl", "healthy", "ok"],
+      ["run", "Startup programs \u00b7 Autoruns", "31 found, 12 not needed", "warn"],
+      ["run", "Memory in use while idle", "78%", "warn"],
+      ["cl", "The disk is fine. The slowness is 12 programs that start with Windows and sit in the background: old updaters, an expired antivirus trial and three toolbars."],
+      ["ask", "Turn off those 12 startup programs? Any of them can be turned back on later."],
+      ["you", "yes, but keep the printer helper"],
+      ["run", "Turned off 11 startup programs, kept the printer helper", "done", "ok"],
+      ["run", "Memory in use while idle", "41%", "ok"],
+      ["done", "\u2713 Faster from the next restart. Report saved to the stick."]
+    ],
+    update: [
+      ["you", "This laptop keeps failing its Windows updates."],
+      ["cl", "Let me check the update history and the disk."],
+      ["run", "Update history \u00b7 PSWindowsUpdate", "same update failed 6 times", "warn"],
+      ["run", "Free disk space", "3 GB (needs about 10 GB)", "warn"],
+      ["run", "Windows system files", "healthy", "ok"],
+      ["cl", "The update fails because the disk is almost full. I can safely free about 14 GB of old update leftovers, temporary files and the recycle bin. Personal documents won't be touched."],
+      ["ask", "Clean up those files and retry the update?"],
+      ["you", "yes"],
+      ["run", "Freed 14.2 GB", "done", "ok"],
+      ["run", "Installing the update", "100%", "ok"],
+      ["done", "\u2713 Installed. It needs one restart, best after hours."]
+    ]
+  };
+  const order = Object.keys(S);
+  const term = document.getElementById('term');
+  const stage = document.getElementById('demo');
+  const tabs = [...document.querySelectorAll('.tab')];
+  const pauseBtn = document.getElementById('pause');
+  let run = 0, cur = 'speakers', auto = !instant, paused = false, hover = false, first = true, lastAsk = null;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const wait = async ms => { if (instant) return; while (paused) await sleep(100); await sleep(ms); };
+  const esc = s => s.replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[c]));
+  const scroll = () => { term.scrollTop = term.scrollHeight; };
+  const setTab = name => tabs.forEach(t => { const on = t.dataset.s === name; t.classList.toggle('on', on); t.setAttribute('aria-selected', on); });
+  const bars = w => tabs.forEach(t => { t.querySelector('.bar').style.width = w; });
+  // Auto-advance pauses while the pointer or keyboard focus is on the demo, and with the Pause button.
+  stage.addEventListener('mouseenter', () => { hover = true; });
+  stage.addEventListener('mouseleave', () => { hover = false; });
+  stage.addEventListener('focusin', () => { hover = true; });
+  stage.addEventListener('focusout', e => { if (!stage.contains(e.relatedTarget)) hover = false; });
+  function setPaused(v) {
+    paused = v; pauseBtn.setAttribute('aria-pressed', v);
+    pauseBtn.querySelector('use').setAttribute('href', v ? '#i-play' : '#i-pause');
+    pauseBtn.querySelector('span').textContent = v ? 'Play' : 'Pause';
+  }
+
+  async function play(name) {
+    const id = ++run; cur = name; setTab(name); term.innerHTML = ''; term.scrollTop = 0; bars('0'); lastAsk = null;
+    for (const [t, a, b, cls] of S[name]) {
+      if (id !== run) return;
+      const el = document.createElement('div'); el.className = 'ln ' + t; term.appendChild(el);
+      if (t === 'you') {
+        el.classList.add('show');
+        if (lastAsk) { const pick = lastAsk.querySelector('.yn span'); if (pick) pick.classList.add('picked'); }
+        // The very first line appears at once, so the hero never opens on an empty terminal.
+        if (instant || first) { el.textContent = a; first = false; await wait(450); continue; }
+        const c = document.createElement('span'); c.className = 'cursor';
+        for (let i = 1; i <= a.length; i++) { if (id !== run) return; el.textContent = a.slice(0, i); el.appendChild(c); scroll(); await wait(24); }
+        c.remove(); await wait(420);
+      } else if (t === 'run') {
+        el.innerHTML = esc(a) + ' <span class="spin">◜</span>';
+        await wait(20); el.classList.add('show'); scroll();
+        await wait(620); if (id !== run) return;
+        el.innerHTML = esc(a) + ' <span class="tool">…</span> <span class="' + cls + '">' + esc(b) + '</span>';
+        await wait(260);
+      } else if (t === 'ask') {
+        el.innerHTML = esc(a) + '<div class="yn"><span>y  yes</span><span>n  no</span></div>';
+        lastAsk = el; await wait(20); el.classList.add('show'); scroll(); await wait(1200);
+      } else {
+        el.textContent = a; await wait(20); el.classList.add('show'); scroll();
+        await wait(t === 'cl' ? 1050 : 400);
+      }
+    }
+    if (instant || !auto || id !== run) return;
+    const next = order[(order.indexOf(name) + 1) % order.length];
+    const bar = tabs.find(t => t.dataset.s === next).querySelector('.bar');
+    const total = 3700; let done = 0;
+    while (done < total) {
+      await sleep(50);
+      if (id !== run || !auto) { bar.style.width = '0'; return; }
+      if (!paused && !hover) { done += 50; bar.style.width = (done / total * 100) + '%'; }
+    }
+    play(next);
+  }
+  tabs.forEach(b => { b.onclick = () => { auto = false; setPaused(false); play(b.dataset.s); }; });
+  document.getElementById('replay').onclick = () => { auto = false; setPaused(false); play(cur); };
+  pauseBtn.onclick = () => setPaused(!paused);
+  if (instant) pauseBtn.style.display = 'none';
+  play('speakers');
+})();
+</script>
+</body>
+</html>

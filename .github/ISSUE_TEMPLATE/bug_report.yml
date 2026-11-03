@@ -1,0 +1,31 @@
+name: Bug report
+description: Something didn't work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Security problem? Please don't file it here. Use **Report a vulnerability** on the Security tab instead."
+  - type: dropdown
+    id: os
+    attributes:
+      label: Host computer
+      options: [Windows 11, Windows 10, macOS (Apple silicon), macOS (Intel), Linux (x64), Linux (arm64), Other]
+    validations:
+      required: true
+  - type: input
+    id: details
+    attributes:
+      label: Make, model and OS version
+      placeholder: "e.g. Dell Latitude 5420, Windows 11 23H2"
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead. Paste any error text (remove anything private).
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: The contents of versions.txt on your stick, if you know them

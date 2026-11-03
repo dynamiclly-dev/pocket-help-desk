@@ -1,0 +1,7 @@
+# The exact versions build-stick.sh puts on a stick - the ones that were tested.
+# To upgrade: change a line, rebuild a test stick, re-run the tests (Codex 0.164
+# once dropped a flag the launcher used), then commit. `./build-stick.sh --check`
+# shows what is newer upstream without building anything.
+CLAUDE_VERSION=2.1.308
+CODEX_TAG=rust-v0.164.0
+AGE_TAG=v1.3.2
