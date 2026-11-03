@@ -3,12 +3,12 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
   lint:
     # Hardware tests (real sticks, real yanks) are run by hand; CI checks what can be checked without a stick.
-    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

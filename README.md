@@ -41,7 +41,7 @@ Pocket Help Desk puts a capable assistant on a stick you can hand to anyone. It 
 
 ## Quick start
 
-**1. Make a stick.** On Windows, run **`Set up my stick.cmd`**. It finds your USB stick, offers to format it, and downloads everything from official sources. On macOS or Linux, format the stick as exFAT and run:
+**1. Make a stick.** On Windows, download **[pocket-help-desk-setup.zip](https://github.com/dynamiclly-dev/pocket-help-desk/releases/latest/download/pocket-help-desk-setup.zip)** (scripts only, under 50 KB), unzip it and run **`Set up my stick.cmd`**. It finds your USB stick, offers to format it, and downloads everything from official sources. On macOS or Linux, format the stick as exFAT and run:
 
 ```bash
 ./build-stick.sh /Volumes/PocketHelp              # all six platforms
